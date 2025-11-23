@@ -1,0 +1,37 @@
+---
+upstream_project_url: https://github.com/zurawiki/tiktoken-rs
+upstream_package_name: tiktoken-rs
+downstream_package_name: rust-tiktoken-rs
+
+upstream_tag_template: v{version}
+
+specfile_path: rust-tiktoken-rs.spec
+
+srpm_build_deps:
+  - git
+  - make
+
+actions:
+  # The last step here is required by Packit to return the archive name
+  # https://packit.dev/docs/configuration/actions#create-archive
+  create-archive:
+    - bash -c "make sources"
+    - bash -c "ls -1 *.crate"
+
+jobs:
+  # Build RPMs for each pull request
+  - job: copr_build
+    trigger: pull_request
+    owner: "r0x0d"
+    project: rust-tiktoken-rs
+    targets:
+      - fedora-all
+
+  # Build RPMs for main branch
+  - job: copr_build
+    trigger: commit
+    branch: main
+    owner: "r0x0d"
+    project: rust-tiktoken-rs
+    targets:
+      - fedora-all
