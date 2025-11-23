@@ -75,7 +75,7 @@ use the "dhat-heap" feature of the "%{crate}" crate.
 %cargo_prep
 
 %generate_buildrequires
-%cargo_generate_buildrequires
+%cargo_generate_buildrequires -a
 
 %build
 %cargo_build
@@ -85,7 +85,7 @@ use the "dhat-heap" feature of the "%{crate}" crate.
 
 %if %{with check}
 %check
-%cargo_test
+%cargo_test -a
 %endif
 
 %changelog
